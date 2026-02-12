@@ -3,7 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
 import DebtMeter from "../components/DebtMeter";
 import KineticSphere from "../components/KineticSphere";
-import { AlertTriangle, TrendingUp, Lock, Zap, Shield, Target, Activity, Gauge, Timer, Flame, Star, Trophy, Smartphone, Download, Bell, CheckCircle2, ArrowRight, Sparkles, Rocket } from "lucide-react";
+import { AlertTriangle, TrendingUp, Lock, Zap, Shield, Target, Activity, Gauge, Timer, Flame, Star, Trophy, Smartphone, Download, Bell, CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import { Rocket } from "lucide-react";
 import logoImg from "@/assets/inertia-debt-logo.png";
 import heroBanner from "@/assets/hero-banner.png";
 
