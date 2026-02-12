@@ -72,7 +72,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <div className="fixed inset-0 grid-bg animate-grid-shift opacity-30 pointer-events-none" />
+      <div className="fixed inset-0 grid-bg animate-grid-shift opacity-30 pointer-events-none will-change-transform" />
 
       {/* Scroll progress bar */}
       <motion.div
