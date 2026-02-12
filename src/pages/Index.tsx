@@ -1,7 +1,8 @@
 import { motion, useScroll, useTransform, useMotionValueEvent, useInView } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import KineticSphere from "../components/KineticSphere";
-import { Rocket, Bell, CheckCircle2, ArrowRight } from "lucide-react";
+import { Rocket, Bell, CheckCircle2, ArrowRight, Play, Pause } from "lucide-react";
+import gameplayTrailer from "@/assets/gameplay-trailer.mp4";
 import logoImg from "@/assets/inertia-debt-logo.png";
 import AnimatedSection from "../components/AnimatedSection";
 import DebtMeter from "../components/DebtMeter";
@@ -357,6 +358,88 @@ const Index = () => {
             <span className="text-xs font-mono text-muted-foreground/30 tracking-[0.3em]">SCROLL DEBT ACCUMULATING</span>
             <div className="font-mono text-lg text-primary/40 mt-1 tabular-nums">{debtCounter.toFixed(4)}</div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════ GAMEPLAY TRAILER ═══════════ */}
+      <section className="relative py-32">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-xs font-mono text-muted-foreground/30 tracking-[0.3em] text-center mb-6"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            SYSTEM PREVIEW
+          </motion.div>
+          <motion.h2
+            className="font-editorial text-3xl md:text-5xl text-center text-foreground mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            See the engine in motion.
+          </motion.h2>
+
+          <motion.div
+            className="max-w-5xl mx-auto relative group"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Glow frame */}
+            <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-primary/20 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+            <div className="relative rounded-2xl overflow-hidden border border-border/20 bg-navy-deep">
+              {/* Aspect ratio container */}
+              <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                <video
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src={gameplayTrailer}
+                  loop
+                  muted
+                  playsInline
+                  autoPlay
+                />
+
+                {/* Vignette overlay on video */}
+                <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: "inset 0 0 100px 40px hsl(222, 47%, 6%)" }} />
+              </div>
+
+              {/* Bottom info strip */}
+              <div className="flex items-center justify-between px-6 py-4 bg-card/30 backdrop-blur-sm border-t border-border/10">
+                <div className="flex items-center gap-3">
+                  <motion.div
+                    className="w-2 h-2 rounded-full bg-primary"
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                  />
+                  <span className="text-xs font-mono text-muted-foreground/50">LIVE ENGINE CAPTURE</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-[10px] font-mono text-muted-foreground/30">60 FPS</span>
+                  <span className="text-[10px] font-mono text-muted-foreground/30">ALPHA v0.4.2</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Corner accents */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-primary/20 rounded-tl-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-primary/20 rounded-tr-2xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-primary/20 rounded-bl-2xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-primary/20 rounded-br-2xl pointer-events-none" />
+          </motion.div>
+
+          <motion.p
+            className="text-center text-xs text-muted-foreground/30 mt-8 font-mono"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            Captured from the INERTIA DEBT physics engine. Pre-release footage.
+          </motion.p>
         </div>
       </section>
 
