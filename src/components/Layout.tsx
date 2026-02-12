@@ -6,6 +6,7 @@ import {
   Zap
 } from "lucide-react";
 import logoImg from "@/assets/inertia-debt-logo.png";
+import appIconImg from "@/assets/inertia-debt-app-icon.png";
 
 const navItems = [
   { id: "home", label: "Home", icon: Home, code: "HME" },
@@ -106,14 +107,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </AnimatePresence>
         </motion.button>
 
-        {/* Logo */}
+        {/* Logo — text-based to avoid boxy image background */}
         <button onClick={() => scrollTo("home")} className="flex items-center gap-2 ml-3">
-          <motion.img
-            src={logoImg}
-            alt="INERTIA DEBT"
-            className={`transition-all duration-300 ${scrolled ? "h-7" : "h-9"} w-auto`}
+          <motion.div
+            className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
-          />
+          >
+            <div className={`rounded-full overflow-hidden border border-primary/20 transition-all duration-300 ${scrolled ? "w-7 h-7" : "w-9 h-9"}`}>
+              <img src={appIconImg} alt="" className="w-full h-full object-cover" />
+            </div>
+            <span className={`font-display font-bold tracking-[0.15em] text-foreground/90 transition-all duration-300 ${scrolled ? "text-xs" : "text-sm"}`}>INERTIA DEBT</span>
+          </motion.div>
         </button>
 
         {/* Desktop inline nav */}
@@ -159,7 +163,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             {/* Sidebar header with logo */}
             <motion.div variants={itemVariants} className="px-5 py-5 border-b border-border/30 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <img src={logoImg} alt="INERTIA DEBT" className="h-10 w-auto" />
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+                  <img src={appIconImg} alt="INERTIA DEBT" className="w-full h-full object-cover" />
+                </div>
+                <span className="font-display text-sm font-bold tracking-[0.15em] text-foreground/90">INERTIA DEBT</span>
               </div>
               <motion.button
                 onClick={() => setSidebarOpen(false)}
@@ -297,7 +304,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="text-center md:text-left flex items-center gap-4">
-              <img src={logoImg} alt="INERTIA DEBT" className="h-12 w-auto opacity-70" />
+              <div className="w-12 h-12 rounded-full overflow-hidden border border-primary/20 opacity-70">
+                <img src={appIconImg} alt="INERTIA DEBT" className="w-full h-full object-cover" />
+              </div>
               <div>
                 <p className="font-display text-sm font-semibold text-primary">SOHAN COMPUTER STORE</p>
                 <p className="text-xs text-muted-foreground mt-1">Systems-Driven Interactive Experiences</p>
