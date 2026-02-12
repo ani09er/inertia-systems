@@ -4,6 +4,7 @@ import KineticSphere from "../components/KineticSphere";
 import { Rocket, Bell, CheckCircle2, ArrowRight, Play, Pause } from "lucide-react";
 import gameplayTrailer from "@/assets/gameplay-trailer.mp4";
 import logoImg from "@/assets/inertia-debt-logo.png";
+import appIconImg from "@/assets/inertia-debt-app-icon.png";
 import AnimatedSection from "../components/AnimatedSection";
 import DebtMeter from "../components/DebtMeter";
 
@@ -724,17 +725,53 @@ const Index = () => {
       </section>
 
       {/* ═══════════ PRE-LAUNCH ═══════════ */}
-      <section id="pre-launch" className="py-32 relative">
+      <section id="pre-launch" className="py-32 relative overflow-hidden">
+        {/* Premium background accents */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[120px]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        </div>
+
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <motion.img
-              src={logoImg}
-              alt="INERTIA DEBT"
-              className="h-28 md:h-40 w-auto mx-auto mb-8"
-              initial={{ opacity: 0, scale: 0.9 }}
+          <div className="text-center mb-20">
+            {/* App icon with glowing frame */}
+            <motion.div
+              className="relative w-28 h-28 md:w-36 md:h-36 mx-auto mb-10"
+              initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, type: "spring" }}
+            >
+              {/* Outer glow ring */}
+              <motion.div
+                className="absolute -inset-3 rounded-3xl"
+                style={{ background: "linear-gradient(135deg, hsl(175, 80%, 40%, 0.3), hsl(185, 65%, 50%, 0.1), hsl(175, 80%, 40%, 0.3))" }}
+                animate={{ opacity: [0.5, 0.8, 0.5] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+              />
+              {/* Icon */}
+              <img
+                src={appIconImg}
+                alt="INERTIA DEBT"
+                className="relative w-full h-full rounded-2xl border border-primary/20 shadow-lg shadow-primary/10 object-cover"
+              />
+              {/* Corner accents */}
+              <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl-lg" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr-lg" />
+              <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary/40 rounded-bl-lg" />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary/40 rounded-br-lg" />
+            </motion.div>
+
+            {/* Logo */}
+            <motion.img
+              src={logoImg}
+              alt="INERTIA DEBT"
+              className="h-16 md:h-20 w-auto mx-auto mb-10"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
             />
 
             <motion.div
@@ -757,7 +794,9 @@ const Index = () => {
           {/* Status */}
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mb-12">
             <AnimatedSection delay={0.1}>
-              <div className="py-8 px-8 border border-border/20 rounded-xl">
+              <div className="py-8 px-8 border border-border/20 rounded-xl bg-card/30 backdrop-blur-sm relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10">
                 <h3 className="text-xs font-mono text-primary/60 tracking-widest mb-6">DEPLOYMENT DETAILS</h3>
                 <div className="grid grid-cols-2 gap-6">
                   {[
@@ -774,11 +813,13 @@ const Index = () => {
                     </motion.div>
                   ))}
                 </div>
+                </div>
               </div>
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <div className="py-8 px-8 border border-border/20 rounded-xl">
+              <div className="py-8 px-8 border border-border/20 rounded-xl bg-card/30 backdrop-blur-sm relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-transparent pointer-events-none" />
                 <h3 className="text-xs font-mono text-primary/60 tracking-widest mb-6">MILESTONES</h3>
                 <div className="space-y-4">
                   {[
