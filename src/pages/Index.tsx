@@ -93,14 +93,22 @@ const DataModule = ({ label, desc, index }: { label: string; desc: string; index
 
   return (
     <motion.div
-      className="flex-1 min-w-[200px] py-8 px-6 cursor-default relative"
+      className="flex-1 min-w-[200px] py-8 px-6 cursor-default relative rounded-xl border border-border/10 bg-card/20 backdrop-blur-sm"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.15, duration: 0.6 }}
+      whileHover={{ borderColor: "hsl(175, 80%, 40%, 0.2)", y: -4 }}
     >
+      {/* Subtle top accent line */}
+      <motion.div
+        className="absolute top-0 left-6 right-6 h-px bg-primary/30"
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        style={{ originX: 0 }}
+      />
       <motion.div
         className="text-xs font-mono text-muted-foreground/40 tracking-[0.3em] mb-3"
         animate={{ color: hovered ? "hsl(175, 80%, 40%)" : "hsla(215, 15%, 55%, 0.4)" }}
@@ -121,12 +129,6 @@ const DataModule = ({ label, desc, index }: { label: string; desc: string; index
       >
         {desc}
       </motion.p>
-      <motion.div
-        className="absolute bottom-0 left-6 right-6 h-px bg-primary/30"
-        animate={{ scaleX: hovered ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-        style={{ originX: 0 }}
-      />
     </motion.div>
   );
 };
@@ -933,7 +935,8 @@ const Index = () => {
           </motion.h2>
 
           <div className="max-w-lg mx-auto">
-            <div className="py-8 px-8 border border-border/20 rounded-xl">
+            <div className="py-8 px-8 border border-border/20 rounded-xl bg-card/30 backdrop-blur-sm relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-transparent pointer-events-none" />
               {contactSubmitted ? (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-8">
                   <CheckCircle2 className="w-10 h-10 text-primary mx-auto mb-3" />
