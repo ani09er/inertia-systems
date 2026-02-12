@@ -735,44 +735,49 @@ const Index = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-20">
-            {/* App icon with glowing frame */}
+            {/* App icon — clean circular glow, no box */}
             <motion.div
-              className="relative w-28 h-28 md:w-36 md:h-36 mx-auto mb-10"
+              className="relative w-32 h-32 md:w-44 md:h-44 mx-auto mb-12"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, type: "spring" }}
+              transition={{ duration: 1, type: "spring" }}
             >
-              {/* Outer glow ring */}
+              {/* Ambient glow behind */}
               <motion.div
-                className="absolute -inset-3 rounded-3xl"
-                style={{ background: "linear-gradient(135deg, hsl(175, 80%, 40%, 0.3), hsl(185, 65%, 50%, 0.1), hsl(175, 80%, 40%, 0.3))" }}
-                animate={{ opacity: [0.5, 0.8, 0.5] }}
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                className="absolute inset-0 rounded-full blur-2xl"
+                style={{ background: "radial-gradient(circle, hsl(175, 80%, 40%, 0.25) 0%, transparent 70%)" }}
+                animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               />
-              {/* Icon */}
+              {/* Thin orbit ring */}
+              <motion.div
+                className="absolute -inset-4 rounded-full border border-primary/10"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+              >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/60" />
+              </motion.div>
+              {/* Icon — circular crop */}
               <img
                 src={appIconImg}
                 alt="INERTIA DEBT"
-                className="relative w-full h-full rounded-2xl border border-primary/20 shadow-lg shadow-primary/10 object-cover"
+                className="relative w-full h-full rounded-full object-cover border-2 border-primary/15 shadow-[0_0_40px_-8px_hsl(175,80%,40%,0.3)]"
               />
-              {/* Corner accents */}
-              <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl-lg" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr-lg" />
-              <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary/40 rounded-bl-lg" />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary/40 rounded-br-lg" />
             </motion.div>
 
-            {/* Logo */}
-            <motion.img
-              src={logoImg}
-              alt="INERTIA DEBT"
-              className="h-16 md:h-20 w-auto mx-auto mb-10"
-              initial={{ opacity: 0, y: 20 }}
+            {/* Logo text — no background visible */}
+            <motion.div
+              className="flex items-center justify-center gap-3 mb-10"
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.6 }}
-            />
+            >
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/30" />
+              <h3 className="font-display text-xl md:text-2xl tracking-[0.3em] text-foreground/80 uppercase">Inertia Debt</h3>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/30" />
+            </motion.div>
 
             <motion.div
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 mb-6"
