@@ -306,36 +306,41 @@ const KineticSphere = ({ scrollVelocity = 0, debtLevel = 0 }: KineticSphereProps
       const mxPx = mouseRef.current.x * w;
       const myPx = mouseRef.current.y * h;
 
-      // Draw orbit particles with magnetic behavior
+      // Pre-compute orbit positions for connection lines
+      const orbitPositions: { px: number; py: number; attraction: number; p: OrbitParticle }[] = [];
       for (const p of orbitParticles.current) {
         p.angle += p.speed * (1 + sv * 0.02);
-
         const distToMouse = Math.sqrt(
           (cx + Math.cos(p.angle) * p.radius - mxPx) ** 2 +
           (cy + Math.sin(p.angle) * p.radius - myPx) ** 2
         );
         const attraction = Math.max(0, 1 - distToMouse / 200);
         p.radius += (p.baseRadius * (1 - attraction * 0.5) - p.radius) * 0.05;
-
         const px = cx + Math.cos(p.angle) * p.radius;
         const py = cy + Math.sin(p.angle) * (p.radius * 0.6);
+        orbitPositions.push({ px, py, attraction, p });
+      }
 
-        // Connection lines to nearby particles
-        for (const q of orbitParticles.current) {
-          if (q === p) continue;
-          const qx = cx + Math.cos(q.angle) * q.radius;
-          const qy = cy + Math.sin(q.angle) * (q.radius * 0.6);
-          const d = Math.sqrt((px - qx) ** 2 + (py - qy) ** 2);
-          if (d < 50) {
+      // Connection lines — only check forward pairs (halves work)
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i < orbitPositions.length; i++) {
+        for (let j = i + 1; j < orbitPositions.length; j++) {
+          const a = orbitPositions[i], b = orbitPositions[j];
+          const dx = a.px - b.px, dy = a.py - b.py;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < 2500) { // 50²
+            const d = Math.sqrt(d2);
             ctx.beginPath();
-            ctx.moveTo(px, py);
-            ctx.lineTo(qx, qy);
+            ctx.moveTo(a.px, a.py);
+            ctx.lineTo(b.px, b.py);
             ctx.strokeStyle = `hsla(180, 70%, 50%, ${(1 - d / 50) * 0.08})`;
-            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
+      }
 
+      // Draw orbit particles
+      for (const { px, py, attraction, p } of orbitPositions) {
         ctx.beginPath();
         ctx.arc(px, py, p.size * (1 + attraction * 0.5), 0, Math.PI * 2);
         ctx.fillStyle = `hsla(${180 + attraction * 20}, 65%, ${55 + attraction * 20}%, ${0.2 + attraction * 0.4 + Math.sin(time + p.angle) * 0.1})`;

@@ -126,16 +126,6 @@ const DataModule = ({ label, desc, index }: { label: string; desc: string; index
         transition={{ duration: 0.4 }}
         style={{ originX: 0 }}
       />
-      {/* Screen distortion effect for overload */}
-      {label === "Overload" && hovered && (
-        <motion.div
-          className="fixed inset-0 pointer-events-none z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.03, 0, 0.02, 0] }}
-          transition={{ duration: 0.5, repeat: Infinity }}
-          style={{ background: "linear-gradient(0deg, transparent 50%, hsla(0, 72%, 50%, 0.1) 50%)", backgroundSize: "100% 4px" }}
-        />
-      )}
     </motion.div>
   );
 };
@@ -146,21 +136,34 @@ const Index = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [sphereCollapsed, setSphereCollapsed] = useState(false);
+
+  // Use refs for high-frequency values to avoid re-renders
+  const scrollVelocityRef = useRef(0);
+  const debtCounterRef = useRef(0);
   const [scrollVelocity, setScrollVelocity] = useState(0);
   const [debtCounter, setDebtCounter] = useState(0);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [sphereCollapsed, setSphereCollapsed] = useState(false);
+  const cursorGlowRef = useRef<HTMLDivElement>(null);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
+  const rafId = useRef(0);
 
-  // Scroll velocity tracking
+  // Scroll velocity tracking — batch state updates via rAF
   useMotionValueEvent(scrollY, "change", (latest) => {
     const vel = Math.abs(latest - lastScrollY.current);
     lastScrollY.current = latest;
-    setScrollVelocity(Math.min(vel, 100));
-    setDebtCounter(prev => prev + vel * 0.01);
+    scrollVelocityRef.current = Math.min(vel, 100);
+    debtCounterRef.current += vel * 0.01;
+
+    if (!rafId.current) {
+      rafId.current = requestAnimationFrame(() => {
+        setScrollVelocity(scrollVelocityRef.current);
+        setDebtCounter(debtCounterRef.current);
+        rafId.current = 0;
+      });
+    }
   });
 
   // Show buttons after 3s
@@ -169,10 +172,15 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Cursor glow tracker
+  // Cursor glow tracker — direct DOM manipulation, no state
   useEffect(() => {
-    const handler = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener("mousemove", handler);
+    const handler = (e: MouseEvent) => {
+      if (cursorGlowRef.current) {
+        cursorGlowRef.current.style.left = `${e.clientX}px`;
+        cursorGlowRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+    window.addEventListener("mousemove", handler, { passive: true });
     return () => window.removeEventListener("mousemove", handler);
   }, []);
 
@@ -241,10 +249,10 @@ const Index = () => {
 
   return (
     <div className="relative">
-      {/* Cursor glow */}
+      {/* Cursor glow — positioned via ref, no re-renders */}
       <div
+        ref={cursorGlowRef}
         className="cursor-glow"
-        style={{ left: cursorPos.x, top: cursorPos.y }}
       />
 
       {/* Scroll-based vignette */}

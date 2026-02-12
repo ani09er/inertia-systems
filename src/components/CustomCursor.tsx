@@ -63,12 +63,16 @@ const CustomCursor = () => {
     };
 
     let els = addHoverListeners();
+    let mutationTimeout: ReturnType<typeof setTimeout>;
     const observer = new MutationObserver(() => {
-      els.forEach((el) => {
-        el.removeEventListener("mouseenter", onEnterInteractive);
-        el.removeEventListener("mouseleave", onLeaveInteractive);
-      });
-      els = addHoverListeners();
+      clearTimeout(mutationTimeout);
+      mutationTimeout = setTimeout(() => {
+        els.forEach((el) => {
+          el.removeEventListener("mouseenter", onEnterInteractive);
+          el.removeEventListener("mouseleave", onLeaveInteractive);
+        });
+        els = addHoverListeners();
+      }, 200);
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
