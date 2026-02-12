@@ -149,6 +149,63 @@
     @apply font-mono tabular-nums text-primary;
     font-variant-numeric: tabular-nums;
   }
+
+  /* Custom Cursor */
+  .custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    box-shadow: 0 0 12px 3px hsl(var(--primary) / 0.6), 0 0 30px 6px hsl(var(--primary) / 0.2);
+    pointer-events: none;
+    z-index: 99999;
+    transition: width 0.25s, height 0.25s, background 0.25s, box-shadow 0.25s;
+    will-change: transform;
+  }
+
+  .custom-cursor-dot.cursor-hover {
+    width: 6px;
+    height: 6px;
+    background: hsl(var(--accent));
+    box-shadow: 0 0 16px 4px hsl(var(--accent) / 0.7), 0 0 40px 8px hsl(var(--accent) / 0.25);
+  }
+
+  .custom-cursor-dot.cursor-click {
+    width: 4px;
+    height: 4px;
+    background: hsl(185 80% 80%);
+  }
+
+  .custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid hsl(var(--primary) / 0.4);
+    pointer-events: none;
+    z-index: 99998;
+    transition: width 0.3s ease-out, height 0.3s ease-out, border-color 0.3s, border-width 0.3s;
+    will-change: transform;
+  }
+
+  .custom-cursor-ring.cursor-hover {
+    width: 52px;
+    height: 52px;
+    border-color: hsl(var(--accent) / 0.5);
+    border-width: 2px;
+  }
+
+  .custom-cursor-ring.cursor-click {
+    width: 24px;
+    height: 24px;
+    border-color: hsl(var(--primary) / 0.8);
+    border-width: 2.5px;
+  }
 }
 
 @layer utilities {
